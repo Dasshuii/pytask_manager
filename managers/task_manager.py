@@ -8,10 +8,10 @@ def _save():
     save_tasks([task.to_dict() for task in tasks])
 
 def _find_task(id):
-    return next((task for task in tasks if task['id'] == id))
+    return next((task for task in tasks if task.id == id))
 
 def _get_next_id():
-    return max((task['id'] for task in tasks), default = - 1) + 1
+    return max((task.id for task in tasks), default = - 1) + 1
 
 def add(description):
     task = Task(id = _get_next_id(), description = description)
@@ -21,15 +21,21 @@ def add(description):
 def update(id, description):
     task = _find_task(id)
     if task:
-        task['description'] = description
-        task['updatedAt'] = datetime.datetime.now().strftime('%x')
+        task.description = description
+        task.updatedAt = datetime.datetime.now().strftime('%x')
+        _save()
+
+def delete(id):
+    task = _find_task(id)
+    if task:
+        tasks.remove(task)
         _save()
 
 def mark_status(id, status):
-    task = _find_task()
+    task = _find_task(id)
     if task:
-        task['status'] = status
-        task['updatedAt'] = datetime.datetime.now().strftime('%x')
+        task.status = status
+        task.updatedAt = datetime.datetime.now().strftime('%x')
         _save()
 
 def mark_in_progress(id):
@@ -39,7 +45,10 @@ def mark_done(id):
     mark_status(id, 'done')
 
 def task_list(status = None):
-    print('--- TASK LIST ---')
+    print('=== TASK LIST ===')
+    count = 0
     for task in tasks:
-        if not status or task['status'] == status:
+        if (not status or status == 'all') or task.status == status:
             print(task)
+            count += 1
+    if not count: print('Not found')

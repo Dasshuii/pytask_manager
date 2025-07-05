@@ -23,4 +23,4 @@ class Task:
         )
 
     def __str__(self):
-        return f'{self.id} -- {self.description} -- {self.status}'
+        return f'{self.id} - {self.description} - {self.status}'

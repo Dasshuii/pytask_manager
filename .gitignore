@@ -1,1 +1,10 @@
 /__pycache__
+/managers/__pycache__
+/models/__pycache__
+/storage/__pycache__
+models/__pycache__
+/managers/__pycache__/*
+/models/__pycache__/*
+/storage/__pycache__/*
+models/__pycache__/*
+
